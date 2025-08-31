@@ -1,0 +1,8 @@
+// Mobile styles
+
+// Remove tap highlight on mobile
+@media screen and (max-width: $device-ipad-pro) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

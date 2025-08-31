@@ -1,0 +1,26 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+	hooksPath = .husky/_
+[branch "main"]
+	vscode-merge-base = origin/main
+	remote = fetch
+	merge = refs/heads/main
+[remote "origin"]
+	url = https://github.com/Daymychen/art-design-pro.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "fetch"]
+	url = https://github.com/rinaltair/art-design-pro-english-ver.git
+	fetch = +refs/heads/*:refs/remotes/fetch/*
+[branch "english-translations"]
+	remote = fetch
+	merge = refs/heads/english-translations
+[branch "chinese-version"]
+	remote = fetch
+	merge = refs/heads/chinese-version
+[lfs]
+	repositoryformatversion = 0

@@ -1,0 +1,97 @@
+@use 'sass:map';
+
+// === Variables ===
+$transition: (
+  duration: 0.3s,
+  // Animation duration
+  distance: 20px,
+  // Slide distance
+  easing: cubic-bezier(0.4, 0, 0.2, 1),
+  // Default easing function
+  fade-easing: ease // Easing for fade transitions
+);
+
+// Helper to get transition config values
+@function transition-config($key) {
+  @return map.get($transition, $key);
+}
+
+// Aliases
+$duration: transition-config('duration');
+$distance: transition-config('distance');
+$easing: transition-config('easing');
+$fade-easing: transition-config('fade-easing');
+
+// === Transition classes ===
+
+// Fade in/out
+.fade {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity $duration $fade-easing;
+    will-change: opacity;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+  }
+
+  &-enter-to,
+  &-leave-from {
+    opacity: 1;
+  }
+}
+
+// Slide transitions mixin
+@mixin slide-transition($direction) {
+  $distance-x: 0;
+  $distance-y: 0;
+
+  @if $direction == 'left' {
+    $distance-x: -$distance;
+  } @else if $direction == 'right' {
+    $distance-x: $distance;
+  } @else if $direction == 'top' {
+    $distance-y: -$distance;
+  } @else if $direction == 'bottom' {
+    $distance-y: $distance;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    transition:
+      opacity $duration $easing,
+      transform $duration $easing;
+    will-change: opacity, transform;
+  }
+
+  &-enter-from {
+    opacity: 0;
+    transform: translate3d($distance-x, $distance-y, 0);
+  }
+
+  &-enter-to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &-leave-to {
+    opacity: 0;
+    transform: translate3d(-$distance-x, -$distance-y, 0);
+  }
+}
+
+// Direction presets
+.slide-left {
+  @include slide-transition('left');
+}
+.slide-right {
+  @include slide-transition('right');
+}
+.slide-top {
+  @include slide-transition('top');
+}
+.slide-bottom {
+  @include slide-transition('bottom');
+}

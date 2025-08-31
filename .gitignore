@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.cursorrules
+.idea
+
+src/types/auto-imports.d.ts
+src/types/components.d.ts
+
+.idea/
