@@ -106,9 +106,11 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
   }
 
   // Handle HTTP status code errors
-  const message = statusCode
-    ? getErrorMessage(statusCode)
-    : errorMessage || $t('httpMsg.requestFailed')
+  const message = errorMessage
+    ? errorMessage
+    : statusCode
+      ? getErrorMessage(statusCode)
+      : $t('httpMsg.requestFailed')
   throw new HttpError(message, statusCode || ApiStatus.error, {
     data: error.response.data,
     url: requestConfig?.url,
