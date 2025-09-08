@@ -1,126 +1,123 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { LanguageEnum } from '@/enums/appEnum'
-import { router } from '@/router'
-import { useSettingStore } from './setting'
-import { useWorktabStore } from './worktab'
-import { AppRouteRecord } from '@/types/router'
+import { AppRouteRecord } from '@/types'
+import { useSettingStore } from '@/store/modules/setting'
+import { useWorktabStore } from '@/store/modules/worktab'
 import { setPageTitle } from '@/router/utils/utils'
+import { router } from '@/router'
+import { useMenuStore } from '@/store/modules/menu'
 import { resetRouterState } from '@/router/guards/beforeEach'
 import { RoutesAlias } from '@/router/routesAlias'
-import { useMenuStore } from './menu'
 
-/**
- * User state management
- * Manages login status, profile info, language, search history, lock state, etc.
- */
-export const useUserStore = defineStore(
-  'userStore',
-  () => {
+export const useUserStore = defineStore('user', {
+  state: () => ({
     // Language setting
-    const language = ref(LanguageEnum.ZH)
+    language: ref(LanguageEnum.EN),
     // Login status
-    const isLogin = ref(false)
+    isLogin: ref(false),
     // Lock screen status
-    const isLock = ref(false)
+    isLock: ref(false),
     // Lock screen password
-    const lockPassword = ref('')
+    lockPassword: ref(''),
     // User info
-    const info = ref<Partial<Api.User.UserInfo>>({})
+    info: ref<Partial<Api.User.UserInfo>>({}),
     // Search history
-    const searchHistory = ref<AppRouteRecord[]>([])
+    searchHistory: ref<AppRouteRecord[]>([]),
     // Access token
-    const accessToken = ref('')
+    accessToken: ref(''),
     // Refresh token
-    const refreshToken = ref('')
-
+    refreshToken: ref('')
+  }),
+  getters: {
     // Computed: get user info
-    const getUserInfo = computed(() => info.value)
+    getUserInfo: (state) => state.info,
     // Computed: get setting store state
-    const getSettingState = computed(() => useSettingStore().$state)
+    getSettingState: () => useSettingStore().$state,
     // Computed: get worktab store state
-    const getWorktabState = computed(() => useWorktabStore().$state)
-
+    getWorktabState: () => useWorktabStore().$state
+  },
+  actions: {
     /**
      * Set user info
      * @param newInfo New user info
      */
-    const setUserInfo = (newInfo: Api.User.UserInfo) => {
-      info.value = newInfo
-    }
+    setUserInfo(newInfo: Api.User.UserInfo) {
+      this.info = newInfo
+    },
 
     /**
      * Set login status
      * @param status Login status
      */
-    const setLoginStatus = (status: boolean) => {
-      isLogin.value = status
-    }
+    setLoginStatus(status: boolean) {
+      this.isLogin = status
+    },
 
     /**
      * Set language
      * @param lang Language enum
      */
-    const setLanguage = (lang: LanguageEnum) => {
+    setLanguage(lang: LanguageEnum) {
+      this.language = lang
       setPageTitle(router.currentRoute.value)
-      language.value = lang
-    }
+    },
 
     /**
      * Set search history
      * @param list Search history list
      */
-    const setSearchHistory = (list: AppRouteRecord[]) => {
-      searchHistory.value = list
-    }
+    setSearchHistory(list: AppRouteRecord[]) {
+      this.searchHistory = list
+    },
 
     /**
      * Set lock screen status
      * @param status Lock state
      */
-    const setLockStatus = (status: boolean) => {
-      isLock.value = status
-    }
+    setLockStatus(status: boolean) {
+      this.isLock = status
+    },
 
     /**
      * Set lock screen password
      * @param password Lock password
      */
-    const setLockPassword = (password: string) => {
-      lockPassword.value = password
-    }
+    setLockPassword(password: string) {
+      this.lockPassword = password
+    },
 
     /**
      * Set tokens
      * @param newAccessToken Access token
      * @param newRefreshToken Refresh token (optional)
      */
-    const setToken = (newAccessToken: string, newRefreshToken?: string) => {
-      accessToken.value = newAccessToken
+    setToken(newAccessToken: string, newRefreshToken?: string) {
+      this.accessToken = newAccessToken
       if (newRefreshToken) {
-        refreshToken.value = newRefreshToken
+        this.refreshToken = newRefreshToken
       }
-    }
+    },
 
     /**
      * Log out
      * Clears all user-related state and navigates to login
      */
-    const logOut = () => {
+    logOut() {
       // Clear user info
-      info.value = {}
+      this.info = {}
       // Reset login status
-      isLogin.value = false
+      this.isLogin = false
       // Reset lock status
-      isLock.value = false
+      this.isLock = false
       // Clear lock password
-      lockPassword.value = ''
+      this.lockPassword = ''
       // Clear access token
-      accessToken.value = ''
+      this.accessToken = ''
       // Clear refresh token
-      refreshToken.value = ''
+      this.refreshToken = ''
       // Clear opened tabs in worktab store
-      useWorktabStore().opened = []
+      useWorktabStore().clearAll()
       // Remove iframe route cache
       sessionStorage.removeItem('iframeRoutes')
       // Clear home path
@@ -130,33 +127,9 @@ export const useUserStore = defineStore(
       // Navigate to login page
       router.push(RoutesAlias.Login)
     }
-
-    return {
-      language,
-      isLogin,
-      isLock,
-      lockPassword,
-      info,
-      searchHistory,
-      accessToken,
-      refreshToken,
-      getUserInfo,
-      getSettingState,
-      getWorktabState,
-      setUserInfo,
-      setLoginStatus,
-      setLanguage,
-      setSearchHistory,
-      setLockStatus,
-      setLockPassword,
-      setToken,
-      logOut
-    }
   },
-  {
-    persist: {
-      key: 'user',
-      storage: localStorage
-    }
+  persist: {
+    key: 'user',
+    storage: localStorage
   }
-)
+})
