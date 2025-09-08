@@ -207,13 +207,13 @@ async function getMenuData(router: Router): Promise<void> {
 async function processFrontendMenu(router: Router): Promise<void> {
   const menuList = asyncRoutes.map((route) => menuDataToRouter(route))
   const userStore = useUserStore()
-  const roles = userStore.info.roles
+  const role = userStore.info.role
 
-  if (!roles) {
-    throw new Error('Failed to get user roles')
+  if (!role) {
+    throw new Error('Failed to get user role')
   }
 
-  const filteredMenuList = filterMenuByRoles(menuList, roles)
+  const filteredMenuList = filterMenuByRoles(menuList, role)
 
   // Small delay for better perceived performance
   await new Promise((resolve) => setTimeout(resolve, LOADING_DELAY))
@@ -288,17 +288,16 @@ function handleMenuError(error: unknown): void {
 }
 
 /**
- * Filter menu by roles
+ * Filter menu by role
  */
-const filterMenuByRoles = (menu: AppRouteRecord[], roles: string[]): AppRouteRecord[] => {
+const filterMenuByRoles = (menu: AppRouteRecord[], role: string): AppRouteRecord[] => {
   return menu.reduce((acc: AppRouteRecord[], item) => {
-    const itemRoles = item.meta?.roles
-    const hasPermission = !itemRoles || itemRoles.some((role) => roles?.includes(role))
-
+    const itemRoles = item.meta?.role
+    const hasPermission = !itemRoles || (Array.isArray(itemRoles) && itemRoles.includes(role))
     if (hasPermission) {
       const filteredItem = { ...item }
       if (filteredItem.children?.length) {
-        filteredItem.children = filterMenuByRoles(filteredItem.children, roles)
+        filteredItem.children = filterMenuByRoles(filteredItem.children, role)
       }
       acc.push(filteredItem)
     }

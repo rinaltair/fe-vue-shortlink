@@ -55,13 +55,14 @@ declare namespace Api {
   namespace User {
     /** User info */
     interface UserInfo {
-      userId: number
-      userName: string
-      roles: string[]
-      buttons: string[]
-      avatar?: string
-      email?: string
-      phone?: string
+      id: number
+      username: string
+      name: string
+      email: string
+      role: string
+      // buttons: string[]
+      // avatar?: string
+      // phone?: string
     }
 
     /** User list data */
