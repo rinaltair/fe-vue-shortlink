@@ -13,7 +13,7 @@ export class UserService {
   // Get user info
   static getUserInfo() {
     return request.get<Api.User.UserInfo>({
-      url: '/api/user/info'
+      url: '/auth/user'
       // Custom request headers
       // headers: {
       //   'X-Custom-Header': 'your-custom-value'
@@ -24,7 +24,7 @@ export class UserService {
   // Get user list
   static getUserList(params: Api.Common.PaginatingSearchParams) {
     return request.get<Api.User.UserListData>({
-      url: '/api/user/list',
+      url: '/user/',
       params
     })
   }
