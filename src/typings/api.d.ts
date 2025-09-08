@@ -41,14 +41,13 @@ declare namespace Api {
   namespace Auth {
     /** Login parameters */
     interface LoginParams {
-      userName: string
+      email: string
       password: string
     }
 
     /** Login response */
     interface LoginResponse {
       token: string
-      refreshToken: string
     }
   }
 

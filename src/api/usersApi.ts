@@ -4,7 +4,7 @@ export class UserService {
   // Login
   static login(params: Api.Auth.LoginParams) {
     return request.post<Api.Auth.LoginResponse>({
-      url: '/api/auth/login',
+      url: '/auth/login',
       params
       // showErrorMessage: false // Do not show error message
     })

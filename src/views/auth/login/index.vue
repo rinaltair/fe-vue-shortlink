@@ -230,8 +230,8 @@
       // Login request
       const { username, password } = formData
 
-      const { token, refreshToken } = await UserService.login({
-        userName: username,
+      const { token } = await UserService.login({
+        email: username,
         password
       })
 
@@ -241,7 +241,7 @@
       }
 
       // Store token and user info
-      userStore.setToken(token, refreshToken)
+      userStore.setToken(token)
       const userInfo = await UserService.getUserInfo()
       userStore.setUserInfo(userInfo)
       userStore.setLoginStatus(true)

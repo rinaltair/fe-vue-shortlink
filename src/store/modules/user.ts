@@ -25,9 +25,7 @@ export const useUserStore = defineStore('user', {
     // Search history
     searchHistory: ref<AppRouteRecord[]>([]),
     // Access token
-    accessToken: ref(''),
-    // Refresh token
-    refreshToken: ref('')
+    accessToken: ref('')
   }),
   getters: {
     // Computed: get user info
@@ -92,11 +90,8 @@ export const useUserStore = defineStore('user', {
      * @param newAccessToken Access token
      * @param newRefreshToken Refresh token (optional)
      */
-    setToken(newAccessToken: string, newRefreshToken?: string) {
+    setToken(newAccessToken: string) {
       this.accessToken = newAccessToken
-      if (newRefreshToken) {
-        this.refreshToken = newRefreshToken
-      }
     },
 
     /**
@@ -114,8 +109,6 @@ export const useUserStore = defineStore('user', {
       this.lockPassword = ''
       // Clear access token
       this.accessToken = ''
-      // Clear refresh token
-      this.refreshToken = ''
       // Clear opened tabs in worktab store
       useWorktabStore().clearAll()
       // Remove iframe route cache
