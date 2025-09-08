@@ -6,7 +6,7 @@ import { $t } from '@/locales'
 // Error response interface
 export interface ErrorResponse {
   code: number
-  msg: string
+  message: string
   data?: unknown
 }
 
@@ -94,7 +94,7 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
   }
 
   const statusCode = error.response?.status
-  const errorMessage = error.response?.data?.msg || error.message
+  const errorMessage = error.response?.data?.message || error.message
   const requestConfig = error.config
 
   // Handle network errors

@@ -12,7 +12,7 @@ declare namespace Api {
       // Status code
       code: number
       // Message
-      msg: string
+      message: string
       // Data
       data: T
     }
