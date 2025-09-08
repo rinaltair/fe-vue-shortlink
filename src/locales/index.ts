@@ -54,16 +54,16 @@ const getDefaultLanguage = (): LanguageEnum => {
     console.warn('[i18n] Failed to get language from system storage:', error)
   }
 
-  // Fallback to default language
-  console.debug('[i18n] Using default language:', LanguageEnum.ZH)
-  return LanguageEnum.ZH
+  // Fallback to default language (English)
+  console.debug('[i18n] Using default language:', LanguageEnum.EN)
+  return LanguageEnum.EN
 }
 
 const i18nOptions: I18nOptions = {
   locale: getDefaultLanguage(),
   legacy: false,
   globalInjection: true,
-  fallbackLocale: LanguageEnum.ZH,
+  fallbackLocale: LanguageEnum.EN,
   messages
 }
 
