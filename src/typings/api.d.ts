@@ -14,7 +14,7 @@ declare namespace Api {
       // Message
       message: string
       // Data
-      data: T
+      data?: T
     }
   }
 
@@ -49,6 +49,14 @@ declare namespace Api {
     interface LoginResponse {
       token: string
     }
+
+    /** Register parameters */
+    interface RegisterParams {
+      username: string
+      name: string
+      email: string
+      password: string
+    }
   }
 
   /** User types */
@@ -60,6 +68,8 @@ declare namespace Api {
       name: string
       email: string
       role: string
+      is_active: boolean
+      is_verify: boolean
       // buttons: string[]
       // avatar?: string
       // phone?: string

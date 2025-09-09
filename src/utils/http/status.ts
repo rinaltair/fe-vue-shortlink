@@ -3,6 +3,7 @@
  */
 export enum ApiStatus {
   success = 200, // Success
+  created = 201, // Created
   error = 400, // Error
   unauthorized = 401, // Unauthorized
   forbidden = 403, // Forbidden

@@ -160,7 +160,9 @@
     "title": "Create account",
     "subTitle": "Welcome to join us, please fill in the following information to complete the registration",
     "placeholder": [
-      "Please enter your account",
+      "Please enter your username",
+      "Please enter your name",
+      "Please enter your email",
       "Please enter your password",
       "Please enter your password again"
     ],
@@ -169,13 +171,14 @@
       "The two passwords are inconsistent!",
       "The length is 3 to 20 characters",
       "The password length cannot be less than 6 digits",
-      "Please agree to the privacy policy"
+      "Please enter a valid email address",
+      "The length is cannot be or less than 3 character"
     ],
     "agreeText": "I agree",
     "privacyPolicy": "Privacy policy",
     "submitBtnText": "Register",
     "hasAccount": "Already have an account?",
-    "toLogin": "To login"
+    "toLogin": "Login"
   },
   "lockScreen": {
     "pwdError": "Password error",

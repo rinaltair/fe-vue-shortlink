@@ -10,6 +10,14 @@ export class UserService {
     })
   }
 
+  // Register
+  static register(params: Api.Auth.RegisterParams) {
+    return request.post({
+      url: '/auth/register',
+      params
+    })
+  }
+
   // Get user info
   static getUserInfo() {
     return request.get<Api.User.UserInfo>({
