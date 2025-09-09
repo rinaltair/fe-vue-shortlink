@@ -9,24 +9,6 @@
             {{ isDark ? '&#xe6b5;' : '&#xe725;' }}
           </i>
         </div>
-        <ElDropdown @command="changeLanguage" popper-class="langDropDownStyle">
-          <div class="btn language-btn">
-            <i class="iconfont-sys icon-language">&#xe611;</i>
-          </div>
-          <template #dropdown>
-            <ElDropdownMenu>
-              <div v-for="lang in languageOptions" :key="lang.value" class="lang-btn-item">
-                <ElDropdownItem
-                  :command="lang.value"
-                  :class="{ 'is-selected': locale === lang.value }"
-                >
-                  <span class="menu-txt">{{ lang.label }}</span>
-                  <i v-if="locale === lang.value" class="iconfont-sys icon-check">&#xe621;</i>
-                </ElDropdownItem>
-              </div>
-            </ElDropdownMenu>
-          </template>
-        </ElDropdown>
       </div>
       <div class="header">
         <ArtLogo class="icon" />
@@ -43,20 +25,8 @@
             @keyup.enter="handleSubmit"
             style="margin-top: 25px"
           >
-            <ElFormItem prop="account">
-              <ElSelect v-model="formData.account" @change="setupAccount" class="account-select">
-                <ElOption
-                  v-for="account in accounts"
-                  :key="account.key"
-                  :label="account.label"
-                  :value="account.key"
-                >
-                  <span>{{ account.label }}</span>
-                </ElOption>
-              </ElSelect>
-            </ElFormItem>
-            <ElFormItem prop="username">
-              <ElInput :placeholder="$t('login.placeholder[0]')" v-model.trim="formData.username" />
+            <ElFormItem prop="email">
+              <ElInput :placeholder="$t('login.placeholder[0]')" v-model.trim="formData.email" />
             </ElFormItem>
             <ElFormItem prop="password">
               <ElInput
@@ -124,8 +94,6 @@
   import { ElNotification, ElMessage } from 'element-plus'
   import { useUserStore } from '@/store/modules/user'
   import { getCssVar } from '@/utils/ui'
-  import { languageOptions } from '@/locales'
-  import { LanguageEnum } from '@/enums/appEnum'
   import { useI18n } from 'vue-i18n'
   import { HttpError } from '@/utils/http/error'
   import { themeAnimation } from '@/utils/theme/animation'
@@ -136,40 +104,6 @@
   const { t } = useI18n()
   import { useSettingStore } from '@/store/modules/setting'
   import type { FormInstance, FormRules } from 'element-plus'
-
-  type AccountKey = 'super' | 'admin' | 'user'
-
-  export interface Account {
-    key: AccountKey
-    label: string
-    userName: string
-    password: string
-    roles: string[]
-  }
-
-  const accounts = computed<Account[]>(() => [
-    {
-      key: 'super',
-      label: t('login.roles.super'),
-      userName: 'Super',
-      password: '123456',
-      roles: ['R_SUPER']
-    },
-    {
-      key: 'admin',
-      label: t('login.roles.admin'),
-      userName: 'Admin',
-      password: '123456',
-      roles: ['R_ADMIN']
-    },
-    {
-      key: 'user',
-      label: t('login.roles.user'),
-      userName: 'User',
-      password: '123456',
-      roles: ['R_USER']
-    }
-  ])
 
   const settingStore = useSettingStore()
   const { isDark } = storeToRefs(settingStore)
@@ -185,30 +119,20 @@
   const formRef = ref<FormInstance>()
 
   const formData = reactive({
-    account: '',
-    username: '',
+    email: '',
     password: '',
     rememberPassword: true
   })
 
   const rules = computed<FormRules>(() => ({
-    username: [{ required: true, message: t('login.placeholder[0]'), trigger: 'blur' }],
+    email: [
+      { required: true, message: t('login.placeholder[0]'), trigger: 'blur' },
+      { type: 'email', message: t('login.rule[0]'), trigger: ['blur', 'change'] }
+    ],
     password: [{ required: true, message: t('login.placeholder[1]'), trigger: 'blur' }]
   }))
 
   const loading = ref(false)
-
-  onMounted(() => {
-    setupAccount('super')
-  })
-
-  // Set up account based on preset
-  const setupAccount = (key: AccountKey) => {
-    const selectedAccount = accounts.value.find((account: Account) => account.key === key)
-    formData.account = key
-    formData.username = selectedAccount?.userName ?? ''
-    formData.password = selectedAccount?.password ?? ''
-  }
 
   // Login
   const handleSubmit = async () => {
@@ -228,10 +152,10 @@
       loading.value = true
 
       // Login request
-      const { username, password } = formData
+      const { email, password } = formData
 
       const { token } = await UserService.login({
-        email: username,
+        email: email,
         password
       })
 
@@ -280,15 +204,6 @@
         message: `${t('login.success.message')}, ${systemName}!`
       })
     }, 150)
-  }
-
-  // Switch language
-  const { locale } = useI18n()
-
-  const changeLanguage = (lang: LanguageEnum) => {
-    if (locale.value === lang) return
-    locale.value = lang
-    userStore.setLanguage(lang)
   }
 </script>
 

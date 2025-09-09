@@ -126,17 +126,17 @@
       "subTitle": "A sleek and practical interface for a great user experience"
     },
     "title": "Welcome back",
-    "subTitle": "Please enter your account and password to login",
+    "subTitle": "Please enter your email and password to login",
     "roles": {
-      "super": "Super Admin",
       "admin": "Admin",
       "user": "User"
     },
     "placeholder": [
-      "Please enter your account",
+      "Please enter your email",
       "Please enter your password",
       "Please slide to verify"
     ],
+    "rule": ["Please enter a valid email address"],
     "sliderText": "Please slide to verify",
     "sliderSuccessText": "Verification successful",
     "rememberPwd": "Remember password",
