@@ -5,19 +5,19 @@ import { getSystemStorage } from '@/utils/storage'
 import { StorageKeyManager } from '@/utils/storage/storage-key-manager'
 // Synchronously import language files
 import enMessages from './langs/en.json'
-import zhMessages from './langs/zh.json'
+// import zhMessages from './langs/zh.json'
 
 // Create storage key manager instance
 const storageKeyManager = new StorageKeyManager()
 
 const messages = {
-  [LanguageEnum.EN]: enMessages,
-  [LanguageEnum.ZH]: zhMessages
+  [LanguageEnum.EN]: enMessages
+  // [LanguageEnum.ZH]: zhMessages
 }
 
 // Language options
 export const languageOptions = [
-  { value: LanguageEnum.ZH, label: 'Simplified Chinese' },
+  // { value: LanguageEnum.ZH, label: 'Simplified Chinese' },
   { value: LanguageEnum.EN, label: 'English' }
 ]
 
