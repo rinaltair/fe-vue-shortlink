@@ -70,7 +70,7 @@ declare namespace Api {
       role: string
       is_active: boolean
       is_verify: boolean
-      // buttons: string[]
+      buttons: string[]
       // avatar?: string
       // phone?: string
     }

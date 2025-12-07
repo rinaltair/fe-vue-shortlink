@@ -2,7 +2,7 @@
   <ArtBasicBanner
     class="banner"
     height="13.3rem"
-    :title="`Welcome back, ${userInfo.userName}`"
+    :title="`Welcome back, ${userInfo.username}`"
     backgroundColor="var(--el-color-primary-light-9)"
     titleColor="var(--art-gray-900)"
     :decoration="false"
